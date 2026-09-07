@@ -2,13 +2,15 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>flaxss — портфолио</title>
   <meta name="description" content="Портфолио flaxss — учусь разработке на Linux, Python, автоматизация и мониторинг.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <noscript><style>body{opacity:1}.reveal{opacity:1;transform:none}#preloader{display:none}</style></noscript>
+  <noscript><style>body{opacity:1}#preloader{display:none}.content-pane{display:block!important}</style></noscript>
 
   <div id="preloader">
     <div class="preloader-inner">
@@ -17,58 +19,203 @@
     </div>
   </div>
 
-  <header>
-    <nav class="nav">
-      <a href="index.html" class="logo">flax<span>ss</span></a>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Обо мне</a></li>
-        <li><a href="projects.html">Проекты</a></li>
-        <li><a href="skills.html">Навыки</a></li>
-        <li><a href="contacts.html">Контакты</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div id="desktop-bg"></div>
 
-  <main>
-    <section class="hero reveal visible">
-      <div class="avatar">F</div>
-      <h1>Привет, я flaxss</h1>
-      <div class="subtitle">Учусь разработке на Linux</div>
-      <p>Я учусь писать код, разбираюсь в Linux, Python, автоматизации и мониторинге. Здесь я собираю свои учебные и личные проекты.</p>
-      <a href="projects.html" class="btn">Смотреть проекты</a>
-      <a href="contacts.html" class="btn secondary">Связаться</a>
-    </section>
-
-    <section class="reveal">
-      <h2>Немного обо мне</h2>
-      <div class="card about-content">
-        <p>Я нахожусь в процессе изучения программирования, а основной инструмент для меня — Linux. Люблю автоматизировать рутину и разбираться, как работают системы изнутри.</p>
-        <p>Мои проекты — это не коммерческие продукты, а способ учиться: от работы с API и парсинга данных до распознавания лиц на Raspberry Pi и мониторинга сервисов.</p>
-      </div>
-
-      <div class="about-highlights">
-        <div class="highlight reveal reveal-d1">
-          <h4>Автоматизация</h4>
-          <p>Скрипты и сервисы, которые делают рутинные задачи сами.</p>
-        </div>
-        <div class="highlight reveal reveal-d2">
-          <h4>Linux-стек</h4>
-          <p>Работаю в Linux, Docker, автозапуск через systemd.</p>
-        </div>
-        <div class="highlight reveal reveal-d3">
-          <h4>Python</h4>
-          <p>Основной язык — он же инструмент для всех экспериментов.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="social">
-      <a href="https://github.com/ekaterrrinks-git">GitHub</a>
+  <!-- Меню-бар -->
+  <div class="menubar">
+    <div class="menubar-left">
+      <div class="apple-logo"><i class="fa-brands fa-github-alt"></i> flaxss</div>
+      <div class="menubar-item hide-m active" data-pane="home">Главная</div>
+      <div class="menubar-item hide-m" data-pane="projects">Проекты</div>
+      <div class="menubar-item hide-m" data-pane="skills">Навыки</div>
+      <div class="menubar-item hide-m" data-pane="music">Музыка</div>
+      <div class="menubar-item hide-m" data-pane="socials">Соцсети</div>
     </div>
-    <p>&copy; <span id="year"></span> flaxss. Собрано с любовью в Linux.</p>
-  </footer>
+    <div class="menubar-right">
+      <div class="music-chip" id="musicChip" title="Включить музыку">
+        <i class="fa-solid fa-music"></i><span id="chipLabel">выкл</span>
+      </div>
+      <div id="clock">
+        <span class="time" id="clockTime">--:--:--</span>
+        <span class="date" id="clockDate">-- -- ----</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Окно -->
+  <div class="workspace">
+    <div class="macos-window">
+      <div class="window-titlebar">
+        <div class="traffic-lights">
+          <span class="light close"></span>
+          <span class="light min"></span>
+          <span class="light max"></span>
+        </div>
+        <div class="window-title"><i class="fa-brands fa-linux"></i> flaxss@linux: <b>~/portfolio</b></div>
+        <div class="titlebar-actions">
+          <img class="favicon-live" src="favicon.svg" alt="">
+        </div>
+      </div>
+
+      <div class="window-body">
+        <!-- Сайдбар -->
+        <aside class="window-sidebar">
+          <div>
+            <div class="profile-mini">
+              <div class="sidebar-avatar"><div class="mono">F</div><span class="sidebar-status"></span></div>
+              <div class="sidebar-name">flaxss</div>
+              <div class="sidebar-sub">root@linux:~$ _</div>
+            </div>
+            <nav class="sidebar-nav">
+              <div class="sidebar-item active" data-pane="home"><i class="fa-solid fa-house"></i><span>Главная</span></div>
+              <div class="sidebar-item" data-pane="projects"><i class="fa-solid fa-diagram-project"></i><span>Проекты</span></div>
+              <div class="sidebar-item" data-pane="skills"><i class="fa-solid fa-code"></i><span>Навыки</span></div>
+              <div class="sidebar-item" data-pane="music"><i class="fa-solid fa-music"></i><span>Музыка</span></div>
+              <div class="sidebar-item" data-pane="socials"><i class="fa-solid fa-share-nodes"></i><span>Соцсети</span></div>
+            </nav>
+          </div>
+          <div class="sidebar-footer">
+            <div class="footer-row"><span>uptime</span><b id="uptime">0:00</b></div>
+            <div class="footer-row"><span>kernel</span><b>linux 🐧</b></div>
+          </div>
+        </aside>
+
+        <!-- Контент -->
+        <div class="window-content">
+          <!-- ГЛАВНАЯ -->
+          <section class="content-pane active" data-pane="home">
+            <h2 class="pane-title"><i class="fa-solid fa-house"></i> Главная <span class="badge">терминал активен</span></h2>
+            <div class="card">
+              <p class="hero-bio">
+                Привет! Я <span class="hl">flaxss</span> — учусь писать код в Linux.
+                Разбираюсь в <span class="hl">Python</span>, работаю с API, автоматизацией
+                и сервисами на <span class="hl">systemd</span>. Люблю собирать системы изнутри
+                и экономить своё время скриптами.
+              </p>
+            </div>
+            <div class="bento-grid">
+              <div class="bento-card">
+                <h4><i class="fa-solid fa-robot"></i> Автоматизация</h4>
+                <p>Скрипты и сервисы, которые делают рутинные задачи сами — от уведомлений до мониторинга.</p>
+              </div>
+              <div class="bento-card">
+                <h4><i class="fa-brands fa-linux"></i> Linux-стек</h4>
+                <p>Работаю в терминале, Docker, системах на systemd, пишу демоны.</p>
+              </div>
+              <div class="bento-card full">
+                <h4><i class="fa-solid fa-terminal"></i> Чем живу</h4>
+                <p>Каждый мой проект — это урок: от парсинга API и распознавания лиц на Raspberry Pi до мониторинга топлива с уведомлениями на телефон.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- ПРОЕКТЫ -->
+          <section class="content-pane" data-pane="projects">
+            <h2 class="pane-title"><i class="fa-solid fa-diagram-project"></i> Проекты <span class="badge">2 репозитория</span></h2>
+
+            <div class="project-item">
+              <div class="proj-icon"><i class="fa-solid fa-gas-pump"></i></div>
+              <div class="proj-details">
+                <div class="proj-title">Мониторинг топлива «Газпромнефть»</div>
+                <div class="proj-desc">Следит за наличием топлива на АЗС через публичный API и шлёт Push-уведомления через ntfy, когда оно появляется. Автозапуск через systemd.</div>
+                <div class="proj-tags">
+                  <span class="tag m">Python</span>
+                  <span class="tag p">API</span>
+                  <span class="tag r">ntfy</span>
+                  <span class="tag">systemd</span>
+                  <span class="tag">Linux</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-item">
+              <div class="proj-icon"><i class="fa-solid fa-camera"></i></div>
+              <div class="proj-details">
+                <div class="proj-title">Распознавание лиц на Raspberry Pi 4</div>
+                <div class="proj-desc">Скетч на PiCamera2 + face_recognition для идентификации лиц в реальном времени. HOG/CNN модели и демо без камеры.</div>
+                <div class="proj-tags">
+                  <span class="tag m">Python</span>
+                  <span class="tag p">Raspberry Pi</span>
+                  <span class="tag r">OpenCV</span>
+                  <span class="tag">dlib</span>
+                  <span class="tag">CV/ML</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- НАВЫКИ -->
+          <section class="content-pane" data-pane="skills">
+            <h2 class="pane-title"><i class="fa-solid fa-code"></i> Навыки <span class="badge">прогресс</span></h2>
+            <div class="card" id="skillCard">
+              <div class="skill-row"><div class="skill-meta"><b>Python</b><span>60%</span></div><div class="bar"><span data-level="60"></span></div></div>
+              <div class="skill-row"><div class="skill-meta"><b>Linux / systemd</b><span>55%</span></div><div class="bar"><span data-level="55"></span></div></div>
+              <div class="skill-row"><div class="skill-meta"><b>Работа с API</b><span>50%</span></div><div class="bar"><span data-level="50"></span></div></div>
+              <div class="skill-row"><div class="skill-meta"><b>Git / GitHub</b><span>45%</span></div><div class="bar"><span data-level="45"></span></div></div>
+              <div class="skill-row"><div class="skill-meta"><b>HTML / CSS</b><span>45%</span></div><div class="bar"><span data-level="45"></span></div></div>
+              <div class="skill-row"><div class="skill-meta"><b>Docker</b><span>35%</span></div><div class="bar"><span data-level="35"></span></div></div>
+            </div>
+          </section>
+
+          <!-- МУЗЫКА -->
+          <section class="content-pane" data-pane="music">
+            <h2 class="pane-title"><i class="fa-solid fa-music"></i> Музыка <span class="badge">электронный синтез</span></h2>
+            <div class="jukebox-banner">
+              <div class="disc paused" id="disc"><div class="disc-center"></div></div>
+              <div class="now-meta">
+                <div class="now-status" id="nowStatus">на паузе</div>
+                <div class="now-title" id="nowTitle">—</div>
+                <div class="now-artist" id="nowArtist">flaxss-jams · часы работы аудиосинтезатора</div>
+              </div>
+            </div>
+            <div class="player-bar">
+              <button class="play-btn" id="playBtn" title="Играть/Пауза"><i class="fa-solid fa-play"></i></button>
+              <div class="scrub" id="scrub"><div class="scrub-fill" id="scrubFill"></div></div>
+              <div class="time-box" id="timeBox">0:00 / 0:00</div>
+            </div>
+            <div id="trackList"></div>
+          </section>
+
+          <!-- СОЦСЕТИ -->
+          <section class="content-pane" data-pane="socials">
+            <h2 class="pane-title"><i class="fa-solid fa-share-nodes"></i> Соцсети <span class="badge">контакты</span></h2>
+            <div class="socials-grid">
+              <a class="soc-btn" href="https://github.com/ekaterrrinks-bit" target="_blank" rel="noopener">
+                <span class="soc-left"><i class="fa-brands fa-github"></i> GitHub<span class="soc-handle">@ekaterrrinks-bit</span></span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+              <a class="soc-btn soon" href="#" data-soon title="Скоро">
+                <span class="soc-left"><i class="fa-brands fa-telegram"></i> Telegram<span class="soc-handle">@вставь-ника</span></span>
+                <i class="fa-solid fa-lock"></i>
+              </a>
+              <a class="soc-btn soon" href="#" data-soon title="Скоро">
+                <span class="soc-left"><i class="fa-brands fa-vk"></i> VK<span class="soc-handle">@вставь-ника</span></span>
+                <i class="fa-solid fa-lock"></i>
+              </a>
+              <a class="soc-btn" href="mailto:flaxss@linux.dev" target="_blank" rel="noopener">
+                <span class="soc-left"><i class="fa-solid fa-envelope"></i> Почта<span class="soc-handle">flaxss@linux.dev</span></span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dock -->
+  <div class="dock-wrap">
+    <div class="macos-dock">
+      <div class="dock-item active" data-pane="home" data-tip="Главная"><i class="fa-solid fa-house"></i><span class="tip">Главная</span></div>
+      <div class="dock-item" data-pane="projects" data-tip="Проекты"><i class="fa-solid fa-diagram-project"></i><span class="tip">Проекты</span></div>
+      <div class="dock-item" data-pane="skills" data-tip="Навыки"><i class="fa-solid fa-code"></i><span class="tip">Навыки</span></div>
+      <div class="dock-divider"></div>
+      <div class="dock-item" data-pane="music" data-tip="Музыка"><i class="fa-solid fa-music"></i><span class="tip">Музыка</span></div>
+      <div class="dock-item" data-pane="socials" data-tip="Соцсети"><i class="fa-solid fa-share-nodes"></i><span class="tip">Соцсети</span></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
 
   <script src="js/main.js"></script>
 </body>
