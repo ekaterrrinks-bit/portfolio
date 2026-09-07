@@ -33,9 +33,15 @@
     </nav>
 
     <div class="top-right">
+      <button class="music-btn" id="matrixToggle" disabled title="Фон из 0 и 1 (открывается за 50 токенов)">
+        <span id="mbLabel">матрица 🔒</span>
+      </button>
       <button class="music-btn" id="musicToggle" title="Фоновая музыка вкл/выкл">
         <i class="fa-solid fa-music"></i><span id="pbLabel">музыка</span>
       </button>
+      <div class="coin-badge" id="coinBadge" title="Токены: лови своих пингвинов 🐧">
+        <i class="fa-solid fa-coins"></i><b id="tokenCount">0</b>
+      </div>
       <div class="clock">
         <span id="clockTime">--:--</span>
         <span id="clockDate">---</span>
@@ -119,19 +125,9 @@
           <div><b>GitHub</b><small>@ekaterrrinks-bit</small></div>
           <i class="fa-solid fa-arrow-up-right-from-square arr"></i>
         </a>
-        <a class="soc soon" href="#" data-soon>
+        <a class="soc" href="https://t.me/medzvv" target="_blank" rel="noopener">
           <i class="fa-brands fa-telegram"></i>
-          <div><b>Telegram</b><small>@вставь-ника</small></div>
-          <i class="fa-solid fa-lock arr"></i>
-        </a>
-        <a class="soc soon" href="#" data-soon>
-          <i class="fa-brands fa-vk"></i>
-          <div><b>VK</b><small>@вставь-ника</small></div>
-          <i class="fa-solid fa-lock arr"></i>
-        </a>
-        <a class="soc" href="mailto:flaxss@linux.dev" target="_blank" rel="noopener">
-          <i class="fa-solid fa-envelope"></i>
-          <div><b>Почта</b><small>flaxss@linux.dev</small></div>
+          <div><b>Telegram</b><small>@medzvv</small></div>
           <i class="fa-solid fa-arrow-up-right-from-square arr"></i>
         </a>
       </div>
@@ -157,6 +153,9 @@
   <div class="hint" id="hint">нажми «музыка», чтобы включить фон 🎧</div>
 
   <div id="toast"></div>
+
+  <canvas id="matrixBg"></canvas>
+  <div id="pinguLayer"></div>
 
   <script src="js/main.js"></script>
 </body>

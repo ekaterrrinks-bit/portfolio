@@ -88,6 +88,97 @@
     barsAnimated = true;
   }
 
+  /* ================= УТИЛИТЫ ПИНГВИНОВ ================= */
+  const MATRIX_LOCK = 50;
+  const badge = $('#coinBadge');
+  const coinN = $('#tokenCount');
+  let tokens = Math.max(0, +(localStorage.getItem('flax_tokens') || 0));
+
+  const bumpBadge = () => {
+    badge.classList.remove('bump');
+    void badge.offsetWidth;
+    badge.classList.add('bump');
+  };
+  const syncTokens = () => {
+    coinN.textContent = tokens;
+    $('#matrixToggle').disabled = tokens < MATRIX_LOCK;
+    $('#mbLabel').textContent = tokens < MATRIX_LOCK ? 'матрица 🔒' : 'матрица';
+  };
+  const addTokens = (n) => {
+    tokens += n;
+    localStorage.setItem('flax_tokens', tokens);
+    coinN.textContent = tokens;
+    bumpBadge();
+    syncTokens();
+  };
+  syncTokens();
+
+  const pinguLayer = $('#pinguLayer');
+  const catchPingu = (p) => {
+    const r = p.getBoundingClientRect();
+    p.remove();
+    const gain = 1 + Math.floor(Math.random() * 3);
+    const coin = document.createElement('div');
+    coin.className = 'coin-fly';
+    coin.style.left = (r.left + r.width / 2) + 'px';
+    coin.style.top = (r.top + r.height / 2) + 'px';
+    coin.innerHTML = '<span>🪙</span><b>+' + gain + '</b>';
+    document.body.appendChild(coin);
+    coin.addEventListener('animationend', () => coin.remove());
+    addTokens(gain);
+  };
+  const spawnPingu = () => {
+    const p = document.createElement('div');
+    p.className = 'pingu';
+    p.textContent = '🐧';
+    p.style.left = Math.max(8, Math.random() * (innerWidth - 70)) + 'px';
+    p.style.fontSize = (22 + Math.random() * 22) + 'px';
+    p.style.setProperty('--dur', (5 + Math.random() * 4) + 's');
+    p.style.setProperty('--drift', ((Math.random() > 0.5 ? 1 : -1) * (30 + Math.random() * 90)).toFixed(0) + 'px');
+    p.style.setProperty('--rot', ((Math.random() > 0.5 ? 1 : -1) * (6 + Math.random() * 14)).toFixed(1) + 'deg');
+    p.addEventListener('pointerdown', (e) => { e.stopPropagation(); catchPingu(p); });
+    pinguLayer.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  };
+  const schedulePingu = () => {
+    if (!document.hidden && pinguLayer.children.length <= 5) spawnPingu();
+    setTimeout(schedulePingu, 3400 + Math.random() * 5200);
+  };
+  setTimeout(schedulePingu, 3200);
+
+  /* ================= ФОН ИЗ 0 И 1 ================= */
+  const mcv = $('#matrixBg');
+  const mctx = mcv.getContext('2d');
+  const mFont = 16;
+  let mDrops = [], mTimer = null;
+
+  const sizeMatrix = () => {
+    mcv.width = innerWidth;
+    mcv.height = innerHeight;
+    mDrops = Array(Math.ceil(mcv.width / mFont)).fill(1);
+  };
+  const mFrame = () => {
+    mctx.fillStyle = 'rgba(5, 6, 12, 0.09)';
+    mctx.fillRect(0, 0, mcv.width, mcv.height);
+    mctx.fillStyle = '#30e0d0';
+    mctx.font = mFont + 'px monospace';
+    for (let i = 0; i < mDrops.length; i++) {
+      mctx.fillText(Math.random() > 0.5 ? '1' : '0', i * mFont, mDrops[i] * mFont);
+      if (mDrops[i] * mFont > mcv.height && Math.random() > 0.975) mDrops[i] = 0;
+      mDrops[i]++;
+    }
+  };
+  const startMatrix = () => { sizeMatrix(); clearInterval(mTimer); mTimer = setInterval(mFrame, 55); };
+  const stopMatrix = () => { clearInterval(mTimer); mTimer = null; };
+
+  $('#matrixToggle').addEventListener('click', () => {
+    if ($('#matrixToggle').disabled) return;
+    const on = document.body.classList.toggle('matrix-on');
+    $('#mbLabel').textContent = on ? 'матрица: вкл' : 'матрица';
+    if (on) startMatrix(); else stopMatrix();
+  });
+  addEventListener('resize', () => { if (document.body.classList.contains('matrix-on')) sizeMatrix(); });
+
   /* ==================== ФОНОВАЯ МУЗЫКА (лицензированные mp3) ==================== */
   const TRACKS = [
     { file: 'music/aries-beats-chill-trap.mp3', name: 'Aries Beats — Chill Trap', by: 'Aries Beats / auboutdufil.com', lic: 'CC BY 4.0' },
