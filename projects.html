@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проекты — flaxss</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <noscript><style>body{opacity:1}.reveal{opacity:1;transform:none}#preloader{display:none}</style></noscript>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="atom"><div class="core"></div></div>
+      <p>загрузка</p>
+    </div>
+  </div>
+
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">flax<span>ss</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Обо мне</a></li>
+        <li><a href="projects.html" class="active">Проекты</a></li>
+        <li><a href="skills.html">Навыки</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="reveal visible">
+      <h2>Мои проекты</h2>
+      <p class="lead">Учебные и личные проекты, в которых я учусь на практике.</p>
+    </section>
+
+    <div class="projects-grid">
+      <article class="project reveal visible reveal-d1">
+        <h3>Мониторинг топлива «Газпромнефть»</h3>
+        <p>Скрипт следит за наличием топлива на выбранной АЗС через публичный API и шлёт Push-уведомления на телефон через ntfy, когда топливо появляется. Есть автозапуск через systemd.</p>
+        <div class="project-meta">
+          <span class="tag">Python</span>
+          <span class="tag">API</span>
+          <span class="tag">ntfy</span>
+          <span class="tag">systemd</span>
+          <span class="tag">Linux</span>
+        </div>
+      </article>
+
+      <article class="project reveal visible reveal-d2">
+        <h3>Распознавание лиц на Raspberry Pi 4</h3>
+        <p>Скетч на PiCamera2 + face_recognition для нахождения и идентификации конкретных лиц в реальном времени. Поддерживает HOG/CNN модели и демо-режим без камеры.</p>
+        <div class="project-meta">
+          <span class="tag">Python</span>
+          <span class="tag">Raspberry Pi</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">dlib</span>
+          <span class="tag">CV/ML</span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="social">
+      <a href="https://github.com/ekaterrrinks-git">GitHub</a>
+    </div>
+    <p>&copy; <span id="year"></span> flaxss. Собрано с любовью в Linux.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

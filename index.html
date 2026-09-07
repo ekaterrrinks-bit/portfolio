@@ -1,476 +1,75 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>flaxss — рисую, снимаю, настраиваю</title>
-<style>
-  :root {
-    --nord0: #2e3440;
-    --nord1: #3b4252;
-    --nord2: #434c5e;
-    --nord3: #4c566a;
-    --nord4: #d8dee9;
-    --nord5: #e5e9f0;
-    --nord6: #eceff4;
-    --nord7: #8fbcbb;
-    --nord8: #88c0d0;
-    --nord9: #81a1c1;
-    --nord10: #5e81ac;
-    --nord11: #bf616a;
-    --nord13: #ebcb8b;
-    --nord14: #a3be8c;
-    --radius: 14px;
-    --gap: 16px;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--nord0);
-    color: var(--nord4);
-    font-family: "Inter", "SF Pro Text", "Segoe UI", system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  a { color: var(--nord8); text-decoration: none; }
-  a:hover { color: var(--nord6); }
-
-  /* ---------- header ---------- */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 28px;
-    background: rgba(46, 52, 64, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--nord1);
-  }
-
-  .logo {
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-    color: var(--nord6);
-  }
-  .logo span { color: var(--nord7); }
-
-  nav { display: flex; gap: 22px; }
-  nav a {
-    color: var(--nord4);
-    font-size: 0.95rem;
-    transition: color 0.2s;
-  }
-  nav a:hover { color: var(--nord8); }
-
-  /* ---------- layout ---------- */
-  main { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
-
-  section { padding-top: 80px; }
-
-  .section-title {
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: var(--nord6);
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-title::before {
-    content: "";
-    width: 28px;
-    height: 4px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--nord8), var(--nord10));
-  }
-
-  /* ---------- hero ---------- */
-  .hero {
-    padding: 110px 0 60px;
-    text-align: center;
-  }
-
-  .avatar {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 26px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--nord8), var(--nord10));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--nord0);
-    box-shadow: 0 8px 30px rgba(129, 161, 193, 0.35);
-  }
-
-  .hero h1 { font-size: 3rem; font-weight: 800; color: var(--nord6); }
-  .hero h1 em {
-    font-style: normal;
-    background: linear-gradient(90deg, var(--nord7), var(--nord8), var(--nord9));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .hero .tags {
-    margin-top: 14px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .hero .tags span {
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: var(--nord1);
-    border: 1px solid var(--nord2);
-    font-size: 0.9rem;
-    color: var(--nord5);
-  }
-
-  .hero .cta {
-    margin-top: 32px;
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-  }
-  .btn-primary {
-    background: var(--nord8);
-    color: var(--nord0);
-  }
-  .btn-primary:hover { background: var(--nord6); color: var(--nord0); }
-  .btn-ghost {
-    background: var(--nord1);
-    border-color: var(--nord3);
-    color: var(--nord5);
-  }
-  .btn-ghost:hover { border-color: var(--nord8); color: var(--nord6); }
-
-  .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-  /* ---------- about ---------- */
-  .about-card {
-    background: var(--nord1);
-    border: 1px solid var(--nord2);
-    border-radius: var(--radius);
-    padding: 30px 32px;
-    font-size: 1.05rem;
-    color: var(--nord4);
-  }
-  .about-card p + p { margin-top: 14px; }
-  .about-card .accent { color: var(--nord7); font-weight: 600; }
-
-  .me-grid {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--gap);
-  }
-  .me-item {
-    background: var(--nord2);
-    border-radius: var(--radius);
-    padding: 20px;
-  }
-  .me-item .icon { color: var(--nord8); margin-bottom: 10px; }
-  .me-item h3 { font-size: 1rem; color: var(--nord6); }
-  .me-item p { font-size: 0.9rem; color: var(--nord4); margin-top: 4px; }
-
-  /* ---------- music ---------- */
-  .music-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: var(--gap);
-  }
-
-  .track {
-    position: relative;
-    background: var(--nord1);
-    border: 1px solid var(--nord2);
-    border-radius: var(--radius);
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    transition: transform 0.15s, border-color 0.2s;
-    overflow: hidden;
-  }
-  .track::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--nord7), var(--nord10));
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .track:hover { transform: translateY(-4px); border-color: var(--nord3); }
-  .track:hover::before { opacity: 1; }
-
-  .track .num {
-    font-size: 0.8rem;
-    color: var(--nord9);
-    letter-spacing: 1px;
-  }
-  .track h3 { font-size: 1.05rem; color: var(--nord6); font-weight: 700; }
-  .track .artist { color: var(--nord9); font-size: 0.9rem; }
-
-  .track .links {
-    margin-top: auto;
-    padding-top: 14px;
-    display: flex;
-    gap: 8px;
-  }
-  .track .links a {
-    flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 0;
-    border-radius: 8px;
-    background: var(--nord2);
-    color: var(--nord4);
-    font-size: 0.82rem;
-    font-weight: 600;
-    transition: background 0.2s, color 0.2s;
-  }
-  .track .links a:hover { background: var(--nord8); color: var(--nord0); }
-  .track .links svg { width: 14px; height: 14px; }
-
-  /* ---------- socials ---------- */
-  .socials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--gap);
-  }
-  .social {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--nord1);
-    border: 1px solid var(--nord2);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    transition: transform 0.15s, border-color 0.2s;
-  }
-  .social:hover { transform: translateY(-3px); border-color: var(--nord8); }
-  .social .icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .social .icon svg { width: 24px; height: 24px; }
-  .social .ico-tg { background: rgba(80, 165, 221, 0.18); color: #50a5dd; }
-  .social .ico-tt { background: rgba(255, 0, 80, 0.15); color: #ff4ba3; }
-  .social .meta { min-width: 0; }
-  .social .meta h3 { color: var(--nord6); font-size: 1rem; }
-  .social .meta p { color: var(--nord9); font-size: 0.85rem; word-break: break-all; }
-  .social .arrow { margin-left: auto; color: var(--nord3); font-size: 1.2rem; }
-  .social:hover .arrow { color: var(--nord8); }
-
-  /* ---------- footer ---------- */
-  footer {
-    text-align: center;
-    padding: 36px 0 46px;
-    border-top: 1px solid var(--nord1);
-    color: var(--nord3);
-    font-size: 0.85rem;
-  }
-
-  @media (max-width: 560px) {
-    .hero h1 { font-size: 2.2rem; }
-    header { padding: 12px 18px; }
-    nav { gap: 14px; }
-    nav a { font-size: 0.85rem; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flaxss — портфолио</title>
+  <meta name="description" content="Портфолио flaxss — учусь разработке на Linux, Python, автоматизация и мониторинг.">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <noscript><style>body{opacity:1}.reveal{opacity:1;transform:none}#preloader{display:none}</style></noscript>
 
-<header>
-  <div class="logo">flaxss<span>.</span></div>
-  <nav>
-    <a href="#about">Обо мне</a>
-    <a href="#music">Музыка</a>
-    <a href="#contacts">Контакты</a>
-  </nav>
-</header>
-
-<main>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="avatar">f</div>
-    <h1>Привет, я <em>flaxss</em></h1>
-    <div class="tags">
-      <span>рисую</span>
-      <span>снимаю природу и текстуры</span>
-      <span>настраиваю Linux под себя</span>
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="atom"><div class="core"></div></div>
+      <p>загрузка</p>
     </div>
-    <div class="cta">
-      <a class="btn btn-primary" href="#music">Любимая музыка</a>
-      <a class="btn btn-ghost" href="#contacts">Написать мне</a>
+  </div>
+
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="logo">flax<span>ss</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Обо мне</a></li>
+        <li><a href="projects.html">Проекты</a></li>
+        <li><a href="skills.html">Навыки</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero reveal visible">
+      <div class="avatar">F</div>
+      <h1>Привет, я flaxss</h1>
+      <div class="subtitle">Учусь разработке на Linux</div>
+      <p>Я учусь писать код, разбираюсь в Linux, Python, автоматизации и мониторинге. Здесь я собираю свои учебные и личные проекты.</p>
+      <a href="projects.html" class="btn">Смотреть проекты</a>
+      <a href="contacts.html" class="btn secondary">Связаться</a>
+    </section>
+
+    <section class="reveal">
+      <h2>Немного обо мне</h2>
+      <div class="card about-content">
+        <p>Я нахожусь в процессе изучения программирования, а основной инструмент для меня — Linux. Люблю автоматизировать рутину и разбираться, как работают системы изнутри.</p>
+        <p>Мои проекты — это не коммерческие продукты, а способ учиться: от работы с API и парсинга данных до распознавания лиц на Raspberry Pi и мониторинга сервисов.</p>
+      </div>
+
+      <div class="about-highlights">
+        <div class="highlight reveal reveal-d1">
+          <h4>Автоматизация</h4>
+          <p>Скрипты и сервисы, которые делают рутинные задачи сами.</p>
+        </div>
+        <div class="highlight reveal reveal-d2">
+          <h4>Linux-стек</h4>
+          <p>Работаю в Linux, Docker, автозапуск через systemd.</p>
+        </div>
+        <div class="highlight reveal reveal-d3">
+          <h4>Python</h4>
+          <p>Основной язык — он же инструмент для всех экспериментов.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social">
+      <a href="https://github.com/ekaterrrinks-git">GitHub</a>
     </div>
-  </section>
+    <p>&copy; <span id="year"></span> flaxss. Собрано с любовью в Linux.</p>
+  </footer>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <h2 class="section-title">Обо мне</h2>
-    <div class="about-card">
-      <p>
-        Рисую и снимаю фотографии — в основном природу и текстуры.
-        Люблю доводить детали до конца: будь то иллюстрация или настройка своей
-        Linux-системы <span class="accent">под себя</span>.
-      </p>
-      <p>
-        Сейчас в процессе роста и хочу двигаться дальше в творчестве.
-      </p>
-    </div>
-    <div class="me-grid">
-      <div class="me-item">
-        <div class="icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-        </div>
-        <h3>Иллюстрации</h3>
-        <p>Рисую и довожу идею до конца.</p>
-      </div>
-      <div class="me-item">
-        <div class="icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        </div>
-        <h3>Фотография</h3>
-        <p>Природа, текстуры, детали.</p>
-      </div>
-      <div class="me-item">
-        <div class="icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
-        <h3>Linux</h3>
-        <p>Настраиваю систему под себя.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- MUSIC -->
-  <section id="music">
-    <h2 class="section-title">Любимая музыка</h2>
-    <div class="music-grid">
-      <div class="track">
-        <div class="num">01</div>
-        <h3>frutiger aero</h3>
-        <div class="artist">amirthetrash</div>
-        <div class="links">
-          <a href="https://vk.com/audio?q=frutiger%20aero%20amirthetrash" target="_blank" rel="noopener">VK</a>
-          <a href="https://www.youtube.com/results?search_query=frutiger+aero+amirthetrash" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-      <div class="track">
-        <div class="num">02</div>
-        <h3>Meant To Be</h3>
-        <div class="artist">Cuntsniffer</div>
-        <div class="links">
-          <a href="https://vk.com/audio?q=Meant%20To%20Be%20Cuntsniffer" target="_blank" rel="noopener">VK</a>
-          <a href="https://www.youtube.com/results?search_query=Meant+To+Be+Cuntsniffer" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-      <div class="track">
-        <div class="num">03</div>
-        <h3>Sleepyhead</h3>
-        <div class="artist">Passion Pit</div>
-        <div class="links">
-          <a href="https://vk.com/audio?q=Sleepyhead%20Passion%20Pit" target="_blank" rel="noopener">VK</a>
-          <a href="https://www.youtube.com/results?search_query=Sleepyhead+Passion+Pit" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-      <div class="track">
-        <div class="num">04</div>
-        <h3>Sextape</h3>
-        <div class="artist">Deftones</div>
-        <div class="links">
-          <a href="https://vk.com/audio?q=Sextape%20Deftones" target="_blank" rel="noopener">VK</a>
-          <a href="https://www.youtube.com/results?search_query=Sextape+Deftones" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-      <div class="track">
-        <div class="num">05</div>
-        <h3>Join Me</h3>
-        <div class="artist">Black Moon Lovers</div>
-        <div class="links">
-          <a href="https://vk.com/audio?q=Join%20Me%20Black%20Moon%20Lovers" target="_blank" rel="noopener">VK</a>
-          <a href="https://www.youtube.com/results?search_query=Join+Me+Black+Moon+Lovers" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-      <div class="track">
-        <div class="num">06</div>
-        <h3>Moonwalk</h3>
-        <div class="artist">World Complete</div>
-        <div class="links">
-          <a href="https://vk.com/audio?q=Moonwalk%20World%20Complete" target="_blank" rel="noopener">VK</a>
-          <a href="https://www.youtube.com/results?search_query=Moonwalk+World+Complete" target="_blank" rel="noopener">YouTube</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTS -->
-  <section id="contacts">
-    <h2 class="section-title">Контакты</h2>
-    <div class="socials-grid">
-      <a class="social" href="https://t.me/medzvv" target="_blank" rel="noopener">
-        <div class="icon ico-tg">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3.5L1.6 11.4c-1 .4-1 1.6.1 2l5.2 1.6 2 6.2c.3 1 .8 1.2 1.7.6l2.3-1.9 4.4 3.3c.8.4 1.4.2 1.6-.8l3-14.3c.3-1.3-.5-2-1.9-1.5zM7 14l11-7-6.4 7.9-.4 3z"/></svg>
-        </div>
-        <div class="meta">
-          <h3>Telegram</h3>
-          <p>@medzvv</p>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="social" href="https://www.tiktok.com/@ekategaeev5" target="_blank" rel="noopener">
-        <div class="icon ico-tt">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.6c.4-1.5 1.4-2.6 2.9-3.1v.2c-.1 1.7-.9 3.2-2.4 4.2 0 .1-.3.2.1.1.8 0 1.6-.2 2.3-.5v4.4c0 4.5-3 7.6-7.3 7.6-2.6 0-5-1.3-6.2-3.4 1.1 2.1 3.6 3.6 6.2 3.1 2.7-.5 4.5-2.8 4.5-5.6V5.6zM4.9 13.1c.3-1.8 1.4-3.4 2.9-4.4 0 0 .3-.1-.1-.1-.3 0-.7.1-1.3.2-.3-.2-1.1-.3-1.8-.2-.6.2-1.2.6-1.7 1.1-.8 1.4-1 3.2-.4 4.5 0-.1-.1-.2-.1-.3 0-.3.1-.5.2-.8z"/></svg>
-        </div>
-        <div class="meta">
-          <h3>TikTok</h3>
-          <p>@ekategaeev5</p>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  flaxss © 2026 · сделано на Linux
-</footer>
-
+  <script src="js/main.js"></script>
 </body>
 </html>
