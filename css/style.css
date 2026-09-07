@@ -296,6 +296,8 @@ main {
 }
 .p-track:hover { color: #fff; }
 .p-track.active { background: rgba(124, 108, 255, 0.2); border-color: var(--p); color: #fff; }
+.p-attr { font-size: 0.56rem; color: var(--muted); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-attr a { color: var(--muted); text-decoration: underline; }
 
 .p-play {
   width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%; border: none; cursor: pointer;
